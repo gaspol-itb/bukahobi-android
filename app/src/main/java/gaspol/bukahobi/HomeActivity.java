@@ -1,5 +1,6 @@
 package gaspol.bukahobi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import gaspol.bukahobi.adapters.GridViewImageViewAdapter;
+import gaspol.bukahobi.models.TagHolder;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private GridView gridViewCatagoryGroup;
+    private GridViewImageViewAdapter gridViewImageViewAdapter;
+
+    private LinearLayout linearLayoutInsideHorizontalScrollViewMyGroup;
+    private LinearLayout linearLayoutInsideHorizontalScrollViewSuggestedGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +37,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +46,25 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        linearLayoutInsideHorizontalScrollViewMyGroup = (LinearLayout) findViewById(R.id.linearLayoutInsideHorizontalScrollViewMyGroup);
+        initHorizontalScrollViewMyGroup();
+
+        linearLayoutInsideHorizontalScrollViewSuggestedGroup = (LinearLayout) findViewById(R.id.linearLayoutInsideHorizontalScrollViewSuggestedGroup);
+        initHorizontalScrollViewSuggestedGroup();
+
+        gridViewImageViewAdapter = new GridViewImageViewAdapter(this);
+
+        gridViewCatagoryGroup = (GridView) findViewById(R.id.gridViewCatagoryGroup);
+        gridViewCatagoryGroup.setAdapter(gridViewImageViewAdapter);
+
+        gridViewCatagoryGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Snackbar.make(view, "Clicked " + i, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
@@ -97,5 +122,49 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initHorizontalScrollViewMyGroup () {
+        //get data in here
+        //iterate the data in here and init view
+        linearLayoutInsideHorizontalScrollViewMyGroup.addView(setCircleImageView(R.drawable.mygroup_1, "1"));
+        linearLayoutInsideHorizontalScrollViewMyGroup.addView(setCircleImageView(R.drawable.mygroup_2, "2"));
+    }
+
+    private void initHorizontalScrollViewSuggestedGroup () {
+        //get data in here
+        //iterate the data in here and init view
+        linearLayoutInsideHorizontalScrollViewSuggestedGroup.addView(setCircleImageView(R.drawable.suggestedgroup_1, "1"));
+        linearLayoutInsideHorizontalScrollViewSuggestedGroup.addView(setCircleImageView(R.drawable.suggestedgroup_2, "2"));
+        linearLayoutInsideHorizontalScrollViewSuggestedGroup.addView(setCircleImageView(R.drawable.suggestedgroup_3, "3"));
+    }
+
+    private View setCircleImageView (int imageId, String id) {
+        CircleImageView imageView = new CircleImageView(this);
+        imageView.setImageResource(imageId);
+        imageView.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+        imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+        TagHolder tagHolder = new TagHolder();
+        tagHolder.id = id;
+        imageView.setTag(tagHolder);
+
+        final HomeActivity self = this;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TagHolder tagHolder = (TagHolder) view.getTag();
+                Snackbar.make(view, "Clicked image view " + tagHolder.id, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+
+                Intent intent = new Intent(self, GroupActivity.class);
+                startActivity(intent);
+            }
+        });
+        return imageView;
+    }
+
+    public void fabCreateGroupOnClickHandler (View view) {
+        Intent intent = new Intent(this, CreateGroupActivity.class);
+        startActivity(intent);
     }
 }

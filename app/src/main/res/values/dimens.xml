@@ -6,4 +6,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <!-- Login activity dimen -->
+    <dimen name="title_margin_bottom">100dp</dimen>
+    <dimen name="title_margin_top">10dp</dimen>
+    <dimen name="login_margin_top">10dp</dimen>
+    <dimen name="register_margin_top">10dp</dimen>
+    <dimen name="login_button_width">150dp</dimen>
+    <dimen name="register_button_width">150dp</dimen>
+
+    <dimen name="group_image_width">120dp</dimen>
+    <dimen name="group_image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
 </resources>

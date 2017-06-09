@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="cardViewCommentOnClickHandler"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:id="@+id/imageViewCommentUserProfile"
+        android:layout_marginRight="@dimen/spacing_normal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageViewCommentUserProfile"
+        android:id="@+id/textViewComment"
+        android:fontFamily="@string/font"/>
+
+</RelativeLayout>
